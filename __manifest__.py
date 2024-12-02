@@ -27,6 +27,7 @@
         'security/ir.model.access.csv',
         'data/data.xml',
         'views/views.xml',
+        'views/care_history_views.xml',
         'views/templates.xml',
     ],
     # only loaded in demonstration mode

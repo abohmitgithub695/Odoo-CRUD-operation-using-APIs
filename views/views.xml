@@ -1,60 +1,5 @@
 <odoo>
   <data>
-    <!-- explicit list view definition -->
-<!--
-    <record model="ir.ui.view" id="care_card_app.list">
-      <field name="name">care_card_app list</field>
-      <field name="model">care_card_app.care_card_app</field>
-      <field name="arch" type="xml">
-        <tree>
-          <field name="name"/>
-          <field name="value"/>
-          <field name="value2"/>
-        </tree>
-      </field>
-    </record>
--->
-    <!-- actions opening views on models -->
-<!--
-    <record model="ir.actions.act_window" id="care_card_app.action_window">
-      <field name="name">care_card_app window</field>
-      <field name="res_model">care_card_app.care_card_app</field>
-      <field name="view_mode">tree,form</field>
-    </record>
--->
-
-    <!-- server action to the one above -->
-<!--
-    <record model="ir.actions.server" id="care_card_app.action_server">
-      <field name="name">care_card_app server</field>
-      <field name="model_id" ref="model_care_card_app_care_card_app"/>
-      <field name="state">code</field>
-      <field name="code">
-        action = {
-          "type": "ir.actions.act_window",
-          "view_mode": "tree,form",
-          "res_model": model._name,
-        }
-      </field>
-    </record>
--->
-
-    <!-- Top menu item -->
-<!--
-    <menuitem name="care_card_app" id="care_card_app.menu_root"/>
--->
-    <!-- menu categories -->
-<!--
-    <menuitem name="Menu 1" id="care_card_app.menu_1" parent="care_card_app.menu_root"/>
-    <menuitem name="Menu 2" id="care_card_app.menu_2" parent="care_card_app.menu_root"/>
--->
-    <!-- actions -->
-<!--
-    <menuitem name="List" id="care_card_app.menu_1_list" parent="care_card_app.menu_1"
-              action="care_card_app.action_window"/>
-    <menuitem name="Server to list" id="care_card_app" parent="care_card_app.menu_2"
-              action="care_card_app.action_server"/>
--->
 <record id="view_care_tree" model="ir.ui.view">
             <field name="name">care_card_app.care_card_app.tree</field>
             <field name="model">care_card_app.care_card_app</field>
@@ -68,6 +13,8 @@
                     <field name="Card_Balance" optional="1"/>
                     <field name="card_issue_date"/>
                     <field name="note"/>
+                    <field name="active"/>
+
                 </tree> 
             </field>
         </record>
@@ -77,10 +24,31 @@
             <field name="model">care_card_app.care_card_app</field>
             <field name="arch" type="xml">
                 <form>
+
                     <sheet>
+                  <div name="button_box" class="oe_button_box">
+                     <button name="action_button" 
+                      type="object" icon="fa_user" string="click"/> 
+                </div>
+<widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+<widget name="web_ribbon" title="Active" bg_color="bg-success" attrs="{'invisible': [('card_status', '!=', 'active')]}"/>
+
+            <header>
+                        <button name="action" type="object" class="btn-primary" string=" action"/>
+                        <button name="action_env" type="object" class="btn-primary" string="env action"/>
+                        <button name="action_card_status_active" type="object" class="btn-primary" string="set to active"/>
+                        <button name="action_card_status_inactive" type="object" class="btn-primary" string="set to inactive"/>
+                        <button name="action_card_status_suspended" type="object" class="btn-primary" string="set to suspended"/>
+                        <button name="action_card_status_expired" type="object" class="btn-primary" string="set to expired"/>
+
+                        <!-- <field name="card_status" widget="statusbar"/> -->
+                        <field name="card_status" widget="statusbar" options="{'clickable':1}" statusbar-visible="active,inactive"/>
+                    </header>
                         <group>
                         <group>
-                    <field name="card_no"/>
+                    <field name="ref"/>
+                    <field name="card_no" attrs="{'readonly': [('card_status', '=', 'expired')]}" />
+                    <!-- <field name="card_no" readonly=[('card_status','!=','expired')] /> -->
                      </group>
                     <group>
                     <field name="roll_number"/>
@@ -92,7 +60,7 @@
                     <field name="validity_date"/>
                      </group>
                       <group>
-                    <field name="card_status"/>
+                    <!-- <field name="card_status"/> -->
                      </group>
                       <group>
                     <field name="Card_Balance"/>
@@ -102,6 +70,8 @@
                      </group>
                       <group>
                     <field name="note"/>
+                    <field name="active"/>
+
                     
                     </group>
                         </group>
@@ -115,9 +85,10 @@
             <field name="model">care_card_app.care_card_app</field>
             <field name="arch" type="xml">
                <search>
-                <field name="beneficiary"/>
-                <field name="roll_number"/>
-                <filter name="roll_num" string="have roll number" domain="[('roll_number','=','care118')]"/>                
+                <field  name="beneficiary"/>
+                <field  name="roll_number"/>
+                <filter name="roll_num" string="have roll number" domain="[('roll_number','=','care118')]"/>
+                <filter name ="group-roll_num" string="Roll number" context="{'group_by':'roll_number'}"/>                
                </search>
                </field>
                </record>
@@ -129,9 +100,18 @@
               <field name="context">{'default_beneficiary': 'abdulrahman'}</field>   
             <field name="view_mode">tree,form</field>
         </record>
+<!-- 
+         <record id="action_care_card_app_closed" model="ir.actions.server">
+            <field name="name">close</field>
+            <field name="model_id" ref="model_care_card_app.care_card_app"/>
+            <field name="binding_model_id" ref="model_care_card_app.care_card_app"/>
+            <field name="state">code</field> 
+            <field name="code">
+                        action = records.action_card_status_closed()
+            </field> 
+        </record> -->
    <menuitem id="menu_care_card_app" name="care card app" action="action_care_card_app"  />
-    <delete id="care_card_app.view_care_form1" model="care_card_app.care_card_app"/>
-    <delete id="care_card_app.view_care_form" model="care_card_app.care_card_app"/>
+    <delete id="care_card_app.object0" model="care_card_app.care_card_app"/>
     <function model="care_card_app.care_card_app" name="_create_roll_number"/>
   </data>
 </odoo>

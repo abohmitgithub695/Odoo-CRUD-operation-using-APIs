@@ -1,0 +1,41 @@
+<odoo>
+  <data>
+<record id="view_care_history_tree" model="ir.ui.view">
+            <field name="name">care.history.tree</field>
+            <field name="model">care.history</field>
+            <field name="arch" type="xml">
+                <tree create='0' edit='0' delete='0'>
+                    <field name="user_id"/>
+                     <field name="care_id"/>
+                    <field name="old_card_status"/>
+                    <field name="new_card_status"/>
+                </tree> 
+            </field>
+        </record>
+        <!-- Form View -->
+        <record id="view_care_history_form" model="ir.ui.view">
+            <field name="name">care.history.form</field>
+            <field name="model">care.history</field>
+            <field name="arch" type="xml">
+                <form create='0' edit='0' delete='0'>
+                    <sheet>
+                    <field name="user_id"/>
+                     <field name="care_id"/>
+                    <field name="old_card_status"/>
+                    <field name="new_card_status"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+       
+        <!-- Action -->
+        <record id="action_care_history" model="ir.actions.act_window">
+            <field name="name">care history</field>
+            <field name="res_model">care.history</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+     <menuitem id="menu_care_history" name="care history" action="action_care_history"  parent="menu_care_card_app"/>
+
+  </data>
+</odoo>

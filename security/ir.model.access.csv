@@ -2,3 +2,4 @@ id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_care_card_app_care_card_app,care_card_app.care_card_app,model_care_card_app_care_card_app,base.group_user,1,1,1,1
 
 care_card_app_user,care_card_app user,model_care_card_app_care_card_app,base.group_user,1,1,1,1
+care_history,care_history user,model_care_history,base.group_user,1,1,1,1
